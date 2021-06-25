@@ -1,6 +1,6 @@
 //connect the client to server via socket
 const myUserName = prompt("Please enter your name?");
-const socket = io("/", { transports: ["websocket"] });
+const socket = io("/");
 
 //myPeer created
 const myPeer = new Peer(undefined, {
