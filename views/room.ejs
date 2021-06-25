@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zoom room</title>
+
+    <script>
+        const ROOM_ID = '<%= roomId%>';
+    </script>
+    <!-- <script defer src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
+    <script defer src="/socket.io/socket.io.js"></script>
+    <script defer src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script defer src="js/room.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/room.css">
+</head>
+
+<body>
+    <h1>Welcome <span id="welcomeMsg"></span> Let's Connect!</h1>
+    <div id="video-container">
+        <!-- <div class="video-div">
+            <video src=""></video>
+            <p><span>nipun</span>
+                <span class="control-btns-container">
+                    <span id="videoBtn" class="control-btn "><span class="fas fa-video"></span></span>
+                    <span id="audioBtn" class="control-btn "><span class="fas fa-microphone"></span></span>
+                </span>
+            </p>
+        </div> -->
+    </div>
+    <div class="buttons">
+        <a href="/" class="btn" id="endbtn">Home</a>
+        <button class="btn" id="invitebtn">Invite Friends</button>
+    </div>
+</body>
+
+</html>
