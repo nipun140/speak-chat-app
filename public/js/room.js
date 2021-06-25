@@ -111,9 +111,10 @@ navigator.mediaDevices
 
       call.on("stream", (oldUservideoStream) => {
         console.log(
-          "my old peer called me,i got his video and displayed it,he was: " +
+          "my old peer called me,i got his video and displayed it,he/she was: " +
             peerWhoCalledName
         );
+        console.log("OldUserVideoStream: " + oldUservideoStream);
         addVideoStream(
           video,
           videoDiv,
@@ -175,7 +176,8 @@ function connectToNewUser(userId, stream, myUserName, userName) {
 
   //event of getting back the new users stream
   call.on("stream", (newuserVideoStream) => {
-    console.log("call answered by newuser i got his video");
+    console.log("call answered by newuser i got his video: ");
+    console.log("newuserVideoStream: " + newuserVideoStream);
     //adding the new users video to our own dom
     addVideoStream(
       video,
