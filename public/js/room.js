@@ -7,7 +7,6 @@ const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
   port: "443",
-  debug: 3,
 });
 
 //peers empty object
