@@ -3,11 +3,147 @@
   --lightred: #fc5c65;
 }
 
-body {
+/* body {
   position: relative;
   padding-bottom: 8rem;
   min-height: 90vh;
+} */
+
+/* CHAT WINDOW */
+
+.main-window {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
+
+.video-window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow-y: auto;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.video-window-small {
+  width: 70%;
+}
+
+.video-window-large {
+  width: 100%;
+}
+
+.chat-window {
+  height: 100vh;
+  background-color: var(--darkblue);
+  font-size: 2rem;
+  position: absolute;
+  overflow-y: auto;
+  right: 0;
+  overflow-x: hidden;
+  transition: all 0.3s;
+}
+
+.dummy-container {
+  padding: 1rem;
+}
+
+.chat-window-open {
+  left: 70%;
+}
+
+.chat-window-close {
+  left: 100%;
+}
+
+.chat-window h1 {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.chat-box {
+  overflow-y: auto;
+  background-color: var(--lightblue);
+  height: 38rem;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  font-weight: bold;
+  border-radius: 1rem;
+}
+
+.msg {
+  font-size: 2rem;
+  padding: 0.5rem;
+  background-color: var(--darkblue);
+  color: white;
+  max-width: 90%;
+  word-wrap: break-word;
+  clear: both;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+}
+
+.msg span {
+  color: red;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+  text-align: right;
+}
+
+.chat-btns {
+  width: 100%;
+}
+
+.chat-btns input,
+textarea {
+  display: block;
+  border: none;
+  width: 100%;
+  padding: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 1rem;
+}
+
+#chatbtn {
+  margin-left: 1rem;
+  background-color: var(--darkblue);
+  border: 2px solid var(--darkblue);
+}
+
+#chatbtn:hover {
+  background-color: white;
+  color: var(--darkblue);
+  cursor: pointer;
+}
+
+#inputText {
+  margin-bottom: 1rem;
+  resize: none;
+}
+
+#sendBtn {
+  color: black;
+  background-color: #0be881;
+  transition: all 0.2s;
+}
+
+#sendBtn:hover {
+  cursor: pointer;
+  background-color: #05c46b;
+}
+/* VIDEO WINDOW  */
 
 h1 {
   margin: 2rem 0;
@@ -15,6 +151,8 @@ h1 {
   font-weight: bold;
   font-size: 2.5rem;
   color: var(--darkblue);
+  word-spacing: 0.1rem;
+  letter-spacing: 0.3rem;
 }
 
 #welcomeMsg {
@@ -25,12 +163,12 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90vw;
-  margin: auto;
+  width: 90%;
   box-shadow: 0rem 0.1rem 2rem 0rem rgba(0, 0, 0, 0.281);
   flex-wrap: wrap;
-  padding: 1rem;
+  /* padding: 1rem; */
   border-radius: 1rem;
+  margin-bottom: 1rem;
 }
 
 .video-div {
@@ -47,8 +185,9 @@ h1 {
   text-align: center;
   font-size: 2rem;
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  padding-left: 0.5rem;
+  padding-bottom: 0.2rem;
+  justify-content: space-between;
 }
 
 .control-btns-container {
@@ -64,15 +203,16 @@ h1 {
   font-size: 1.6rem;
   color: white;
   background-color: var(--darkblue);
+  border: 0.15rem solid var(--darkblue);
   border-radius: 50%;
   margin-right: 0.5rem;
-  transition: all 0.5s;
+  transition: all 0.2s;
 }
 
 .control-btn:hover {
   cursor: pointer;
   color: var(--darkblue);
-  background-color: rgb(212, 209, 209);
+  background-color: white;
 }
 
 video {
@@ -85,10 +225,9 @@ video {
 .buttons {
   display: flex;
   justify-content: flex-end;
-  width: 90vw;
-  position: absolute;
-  bottom: 0px;
-  margin: 0 auto 2rem auto;
+  width: 90%;
+  margin-bottom: 1rem;
+  margin-top: auto;
 }
 
 .btn {
@@ -97,34 +236,126 @@ video {
   padding: 0.5rem 1rem;
   font-size: 2rem;
   color: white;
-  transition: all 0.5s;
+  transition: all 0.2s;
   border-radius: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.btn span {
+  margin-left: 0.5rem;
 }
 
 #endbtn {
   background: var(--darkred);
+  border: 0.15rem solid var(--darkred);
   margin-right: 1rem;
 }
 
 #endbtn:hover {
-  background: var(--lightred);
+  background-color: white;
+  color: var(--darkred);
+  cursor: pointer;
 }
 
 #invitebtn {
   background: var(--darkblue);
+  border: 0.15rem solid var(--darkblue);
 }
 
 #invitebtn:hover {
-  background: var(--lightblue);
+  background-color: white;
+  color: var(--darkblue);
   cursor: pointer;
 }
 @media (max-width: 650px) {
   #video-container {
-    width: 90vw;
     justify-content: center;
   }
 
   .video-div {
     width: 96%;
   }
+}
+
+/* participants  */
+#participantbtn {
+  margin-left: 1rem;
+  background: var(--darkblue);
+  border: 0.15rem solid var(--darkblue);
+}
+
+#participantbtn:hover {
+  background-color: white;
+  color: var(--darkblue);
+  cursor: pointer;
+}
+
+.modal-container {
+  position: fixed;
+  width: 60vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: height 0.3s;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.open-modal {
+  height: 60vh;
+}
+
+.close-modal {
+  height: 0vh;
+}
+
+.modal-content {
+  position: relative;
+  width: 90%;
+  color: white;
+  font-weight: bold;
+  height: 80%;
+  box-shadow: 0rem 0.1rem 2rem 0rem rgb(0 0 0 / 28%);
+  border-radius: 1rem;
+  background-color: var(--lightblue);
+}
+
+.inner-content {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  font-size: 2rem;
+  padding: 1rem;
+}
+
+#modalCloseBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+  height: 4rem;
+  width: 4rem;
+  background-color: var(--darkblue);
+  border: 0.2rem solid var(--darkblue);
+  border-radius: 50%;
+  font-size: 2.5rem;
+  transform: translate(50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#modalCloseBtn:hover {
+  cursor: pointer;
+  color: var(--darkblue);
+  background-color: white;
+}
+
+.list {
+  padding-left: 4rem;
 }

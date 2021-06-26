@@ -83,6 +83,13 @@ io.on("connection", (socket) => {
       //event send to all sockets in room
       io.sockets.in(roomId).emit("updateNames", UpdatedNamesArr);
     });
+
+    //recieved message
+    socket.on("messageSent", (message, position, myUserName) => {
+      socket.broadcast
+        .to(roomId)
+        .emit("messageRecieved", message, position, myUserName);
+    });
   });
 });
 

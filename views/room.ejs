@@ -17,14 +17,62 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/room.css">
 </head>
 
 <body>
-    <h1>Welcome <span id="welcomeMsg"></span> Let's Connect!</h1>
-    <div id="video-container">
-        <!-- <div class="video-div">
+    <div class="main-window">
+        <div class="video-window video-window-large">
+            <h1>Welcome <span id="welcomeMsg"></span> Let's Connect!</h1>
+            <div id="video-container">
+
+            </div>
+            <div class="buttons">
+                <button onclick="leaveMeeting()" class="btn" id="endbtn">End Call <span
+                        class="fas fa-phone-slash"></span> </button>
+                <button class="btn" id="invitebtn">Invite Friends<span class="	fa fa-send"></span></button>
+                <button onclick="toggleModal()" class="btn" id="participantbtn">Particpants<span
+                        class="fas fa-user-friends"></span></button>
+                <button onclick="toggleChatWindow()" class="btn" id="chatbtn">chat <span class="fa fa-wechat"></span>
+                </button>
+            </div>
+
+            <!-- participants div  -->
+            <div class="modal-container close-modal">
+                <div class="modal-content">
+                    <div class="inner-content">
+                        <ol class="list">
+
+                        </ol>
+                    </div>
+                    <div onclick="toggleModal()" id="modalCloseBtn"><span class="fa fa-close"></span></div>
+                </div>
+            </div>
+        </div>
+        <!-- chat window  -->
+        <div class="chat-window chat-window-close">
+            <div class="dummy-container">
+                <h1>Chat Window</h1>
+                <div class="chat-box">
+
+                </div>
+                <div class="chat-btns">
+                    <textarea id="inputText" placeholder="Enter your message.."></textarea>
+                    <input type="submit" id="sendBtn" value="Send">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<!-- <div class="video-div">
             <video src=""></video>
             <p><span>nipun</span>
                 <span class="control-btns-container">
@@ -33,11 +81,6 @@
                 </span>
             </p>
         </div> -->
-    </div>
-    <div class="buttons">
-        <a href="/" class="btn" id="endbtn">Home</a>
-        <button class="btn" id="invitebtn">Invite Friends</button>
-    </div>
-</body>
 
-</html>
+<!-- <div class="left msg"><span>nipun: </span>Lorem ipsum</div>
+        <div class="right msg">helloo<span> :maku</span></div> -->

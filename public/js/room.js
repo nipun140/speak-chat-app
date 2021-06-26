@@ -1,5 +1,6 @@
 //connect the client to server via socket
-let myUserName = prompt("Please enter your name?");
+// let myUserName = prompt("Please enter your name?");
+let myUserName = "uiser";
 if (!myUserName) {
   myUserName = "User";
 }
@@ -218,6 +219,8 @@ function addVideoStream(video, videoDiv, nameP, userName, textS, stream) {
   videoContainer.append(videoDiv);
 }
 
+//BUTTONS,CHAT-WINDOW functions
+
 //CLIPBOARD COPY
 const inviteBtn = document.getElementById("invitebtn");
 
@@ -240,7 +243,77 @@ function copyToClipboard(text) {
 
 inviteBtn.addEventListener("click", getUrl);
 
+//update names event
 socket.on("updateNames", function (usersArr) {
-  console.log("update list");
-  console.log(usersArr);
+  const olList = document.querySelector("ol.list");
+  let str = "";
+  usersArr.forEach((userName) => {
+    if (userName == myUserName) {
+      str += `<li>${userName} (You)</li>`;
+    } else {
+      str += `<li>${userName}</li>`;
+    }
+  });
+  olList.innerHTML = str;
 });
+
+//closeModal function
+const modalContainer = document.querySelector(".modal-container");
+
+function toggleModal() {
+  modalContainer.classList.toggle("open-modal");
+  modalContainer.classList.toggle("close-modal");
+}
+
+//Leave meeting function
+function leaveMeeting() {
+  const answer = confirm("are you sure you want to leave the meeting?");
+  if (answer) {
+    window.open("/");
+  }
+}
+
+//CHAT WINDOW
+const chatWindow = document.querySelector(".chat-window");
+const videoWindow = document.querySelector(".video-window");
+const chatBtn = document.querySelector("#chatbtn");
+
+function toggleChatWindow() {
+  chatWindow.classList.toggle("chat-window-open");
+  chatWindow.classList.toggle("chat-window-close");
+  videoWindow.classList.toggle("video-window-small");
+  videoWindow.classList.toggle("video-window-large");
+}
+
+const inputText = document.getElementById("inputText");
+const sendBtn = document.getElementById("sendBtn");
+
+sendBtn.addEventListener("click", () => {
+  console.log("send btn clicked");
+  let message = inputText.value;
+  displayMessage(message, "right", "You");
+  socket.emit("messageSent", message, "left", myUserName);
+});
+
+//event recieved from server to all the sockets except the socket who initially sent message to server
+socket.on("messageRecieved", (msg, position, name) => {
+  displayMessage(msg, position, name);
+});
+
+//display message function in dom
+const chatBoxDiv = document.querySelector(".chat-box");
+
+function displayMessage(msg, position, name) {
+  console.log("display function called");
+  const mesgDiv = document.createElement("div");
+  mesgDiv.classList.add("msg");
+  mesgDiv.classList.add(`${position}`);
+  let str = "";
+  if (position == "right") {
+    str = msg + `<span> :${name}</span>`;
+  } else {
+    str = `<span>${name}: </span>` + msg;
+  }
+  mesgDiv.innerHTML = str;
+  chatBoxDiv.append(mesgDiv);
+}
