@@ -1,6 +1,5 @@
 //connect the client to server via socket
-// let myUserName = prompt("Please enter your name?");
-let myUserName = "uiser";
+let myUserName = prompt("Please enter your name?");
 if (!myUserName) {
   myUserName = "User";
 }
