@@ -9,7 +9,7 @@ const socket = io("/");
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3000",
   // proxied: true,
   // secure: true,
 });
@@ -167,6 +167,7 @@ myPeer.on("open", (id) => {
 
 function connectToNewUser(userId, stream, myUserName, userName) {
   console.log("connect to new user function");
+  //userid of new user,jiski call kar re hai
   const call = myPeer.call(`${userId}`, stream, {
     metadata: { name: `${myUserName}` },
   }); //send the newuser our own stream and our name via metadata

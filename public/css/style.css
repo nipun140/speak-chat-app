@@ -1,15 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
 
 :root {
-  font-size: 10px;
   --darkblue: #1e3799;
   --lightblue: #4a69bd;
   --white: #ffffff;
   --black: black;
-  font-size: 10px;
 }
 
 html {
+  font-size: 10px;
   background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
   background-attachment: fixed;
 }
@@ -211,7 +210,7 @@ footer {
 }
 
 @media (max-width: 315px) {
-  :root {
+  html {
     font-size: 8px;
   }
 }

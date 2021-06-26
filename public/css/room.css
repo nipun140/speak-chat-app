@@ -48,7 +48,12 @@
 }
 
 .dummy-container {
+  height: 100%;
+  width: 100%;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .chat-window-open {
@@ -69,7 +74,7 @@
 .chat-box {
   overflow-y: auto;
   background-color: var(--lightblue);
-  height: 38rem;
+  flex-grow: 1;
   margin-bottom: 0.5rem;
   padding: 1rem;
   font-weight: bold;
@@ -101,6 +106,18 @@
   text-align: right;
 }
 
+#chatbtn {
+  margin-left: 1rem;
+  background-color: var(--darkblue);
+  border: 2px solid var(--darkblue);
+}
+
+#chatbtn:hover {
+  background-color: white;
+  color: var(--darkblue);
+  cursor: pointer;
+}
+
 .chat-btns {
   width: 100%;
 }
@@ -114,18 +131,6 @@ textarea {
   font-size: 2rem;
   font-weight: bold;
   border-radius: 1rem;
-}
-
-#chatbtn {
-  margin-left: 1rem;
-  background-color: var(--darkblue);
-  border: 2px solid var(--darkblue);
-}
-
-#chatbtn:hover {
-  background-color: white;
-  color: var(--darkblue);
-  cursor: pointer;
 }
 
 #inputText {
@@ -358,4 +363,55 @@ video {
 
 .list {
   padding-left: 4rem;
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 8px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .btn {
+    margin: 0 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .chat-window-open {
+    left: 50%;
+  }
+
+  .video-window-small {
+    width: 50%;
+  }
+}
+
+@media (max-width: 400px) {
+  html {
+    font-size: 7px;
+  }
+
+  .chat-window-open {
+    left: 40%;
+  }
+
+  .video-window-small {
+    width: 40%;
+  }
+}
+
+@media (max-width: 300px) {
+  html {
+    font-size: 6px;
+  }
 }
