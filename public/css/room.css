@@ -394,6 +394,10 @@ video {
   .video-window-small {
     width: 50%;
   }
+
+  .modal-container {
+    width: 80vw;
+  }
 }
 
 @media (max-width: 400px) {
@@ -413,5 +417,9 @@ video {
 @media (max-width: 300px) {
   html {
     font-size: 6px;
+  }
+
+  .modal-container {
+    width: 90vw;
   }
 }
