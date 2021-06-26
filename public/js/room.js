@@ -9,7 +9,7 @@ const socket = io("/");
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "3000",
+  port: "443",
 });
 
 //peers empty object
@@ -51,11 +51,7 @@ navigator.getUserMedia =
 
 navigator.mediaDevices
   .getUserMedia({
-    video: {
-      width: 1280,
-      height: 720,
-      facingMode: "user",
-    },
+    video: true,
     audio: true,
   })
   .then((stream) => {
