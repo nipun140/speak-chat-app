@@ -273,7 +273,7 @@ function toggleModal() {
 function leaveMeeting() {
   const answer = confirm("are you sure you want to leave the meeting?");
   if (answer) {
-    window.open("/");
+    window.location.assign("/");
   }
 }
 
