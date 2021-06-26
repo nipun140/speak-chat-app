@@ -11,7 +11,7 @@ const myPeer = new Peer(undefined, {
   host: "/",
   port: "443",
   proxied: true,
-  secure: true,
+  // secure: true,
 });
 
 //peers empty object
@@ -291,11 +291,13 @@ function toggleChatWindow() {
 const inputText = document.getElementById("inputText");
 const sendBtn = document.getElementById("sendBtn");
 
+//when the send button is clicked to send a message
 sendBtn.addEventListener("click", () => {
   console.log("send btn clicked");
   let message = inputText.value;
   displayMessage(message, "right", "You");
   socket.emit("messageSent", message, "left", myUserName);
+  inputText.value = "";
 });
 
 //event recieved from server to all the sockets except the socket who initially sent message to server
