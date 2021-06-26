@@ -10,7 +10,7 @@ const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
   port: "443",
-  proxied: true,
+  // proxied: true,
   // secure: true,
 });
 

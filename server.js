@@ -13,8 +13,8 @@ const io = require("socket.io")(server); //socket.io should know wher the server
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
-  ssl: {},
-  proxied: true,
+  // ssl: {},
+  // proxied: true,
 });
 
 app.use("/peerjs", peerServer);
