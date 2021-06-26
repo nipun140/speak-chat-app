@@ -9,7 +9,7 @@ const socket = io("/");
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3000",
 });
 
 //peers empty object
@@ -100,12 +100,12 @@ navigator.mediaDevices
     //accept the call made by other old-users and send them my own stream
     myPeer.on("call", (call) => {
       const peerWhoCalledId = call.peer;
-      const myId = call.provider._id;
+      // const myId = call.provider._id;
       const peerWhoCalledName = call.metadata.name;
 
       oldPeers[peerWhoCalledId] = call;
-      console.log("my oldpeer called me,i answered");
       call.answer(stream);
+      console.log("my oldpeer called me,i answered and sent stream");
       const video = document.createElement("video");
       const videoDiv = document.createElement("div");
       videoDiv.classList.add("video-div");
@@ -138,7 +138,7 @@ navigator.mediaDevices
     //ask the other  old-users for their stream to add in my own dom
 
     //user connected event,userid of newuser which is sent to all users except the new user
-    socket.on("user-connected", (userId, userName, namesArr) => {
+    socket.on("user-connected", (userId, userName) => {
       //conncet to the new user by passing our own stream to him
       console.log("new user joined: " + userId + " : " + userName);
       setTimeout(() => {
@@ -151,7 +151,7 @@ navigator.mediaDevices
   });
 
 //whichever user either old /new his userId is recieved
-socket.on("user-disconnected", (userId, UpdatedNamesArr) => {
+socket.on("user-disconnected", (userId) => {
   console.log("user disconnected: " + userId);
   //close the call made to the new user
   if (newPeers[userId]) newPeers[userId].close();
