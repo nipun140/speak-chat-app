@@ -10,6 +10,8 @@ const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
   port: "443",
+  proxied: true,
+  secure: true,
 });
 
 //peers empty object
@@ -147,11 +149,12 @@ navigator.mediaDevices
   });
 
 //whichever user either old /new his userId is recieved
-socket.on("user-disconnected", (userId) => {
+socket.on("user-disconnected", (userId, usersArr) => {
   console.log("user disconnected: " + userId);
   //close the call made to the new user
   if (newPeers[userId]) newPeers[userId].close();
   if (oldPeers[userId]) oldPeers[userId].close();
+  updateNames(usersArr);
 });
 
 //peerjs sent back the id
@@ -239,8 +242,13 @@ function copyToClipboard(text) {
 inviteBtn.addEventListener("click", getUrl);
 
 //update names event
+const olList = document.querySelector("ol.list");
+
 socket.on("updateNames", function (usersArr) {
-  const olList = document.querySelector("ol.list");
+  updateNames(usersArr);
+});
+
+function updateNames(usersArr) {
   let str = "";
   usersArr.forEach((userName) => {
     if (userName == myUserName) {
@@ -250,7 +258,7 @@ socket.on("updateNames", function (usersArr) {
     }
   });
   olList.innerHTML = str;
-});
+}
 
 //closeModal function
 const modalContainer = document.querySelector(".modal-container");

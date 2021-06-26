@@ -13,6 +13,8 @@ const io = require("socket.io")(server); //socket.io should know wher the server
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
+  ssl: {},
+  proxied: true,
 });
 
 app.use("/peerjs", peerServer);
@@ -78,10 +80,12 @@ io.on("connection", (socket) => {
         }
       }
 
-      socket.broadcast.to(roomId).emit("user-disconnected", userId); //broadcast to all users except the user who disconnected
+      socket.broadcast
+        .to(roomId)
+        .emit("user-disconnected", userId, UpdatedNamesArr); //broadcast to all users except the user who disconnected
 
       //event send to all sockets in room
-      io.sockets.in(roomId).emit("updateNames", UpdatedNamesArr);
+      // io.sockets.in(roomId).emit("updateNames", UpdatedNamesArr);
     });
 
     //recieved message
