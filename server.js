@@ -45,11 +45,43 @@ app.get("/:room", (req, res) => {
 //on scoket connection
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId, userName) => {
+    socket.nickname = userName;
     socket.join(roomId);
+
+    const clients = io.sockets.adapter.rooms.get(roomId);
+
+    let namesArr = [];
+    for (const clientId of clients) {
+      //this is the socket of each client in the room.
+      const clientSocket = io.sockets.sockets.get(clientId);
+
+      namesArr.push(clientSocket.nickname);
+    }
+
+    //broadcast to all other sockets in that room except the socket who joined just now
     socket.broadcast.to(roomId).emit("user-connected", userId, userName);
 
+    //event send to all sockets in specific room
+    io.sockets.in(roomId).emit("updateNames", namesArr);
+
+    //when a socket disconnects
     socket.on("disconnect", () => {
+      const UpdatedClients = io.sockets.adapter.rooms.get(roomId);
+
+      let UpdatedNamesArr = [];
+      if (UpdatedClients) {
+        for (const clientId of UpdatedClients) {
+          //this is the socket of each client in the room.
+          const clientSocket = io.sockets.sockets.get(clientId);
+
+          UpdatedNamesArr.push(clientSocket.nickname);
+        }
+      }
+
       socket.broadcast.to(roomId).emit("user-disconnected", userId); //broadcast to all users except the user who disconnected
+
+      //event send to all sockets in room
+      io.sockets.in(roomId).emit("updateNames", UpdatedNamesArr);
     });
   });
 });

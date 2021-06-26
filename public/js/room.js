@@ -1,12 +1,15 @@
 //connect the client to server via socket
-const myUserName = prompt("Please enter your name?");
+let myUserName = prompt("Please enter your name?");
+if (!myUserName) {
+  myUserName = "User";
+}
 const socket = io("/");
 
 //myPeer created
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3000",
 });
 
 //peers empty object
@@ -89,7 +92,7 @@ navigator.mediaDevices
       myVideo,
       myVideoDiv,
       myNameP,
-      myUserName + " (Yourself)",
+      myUserName + " (You)",
       mynameTextS,
       stream
     );
@@ -114,7 +117,7 @@ navigator.mediaDevices
           "my old peer called me,i got his video and displayed it,he/she was: " +
             peerWhoCalledName
         );
-        console.log("OldUserVideoStream: " + oldUservideoStream);
+        console.log(oldUservideoStream);
         addVideoStream(
           video,
           videoDiv,
@@ -135,7 +138,7 @@ navigator.mediaDevices
     //ask the other  old-users for their stream to add in my own dom
 
     //user connected event,userid of newuser which is sent to all users except the new user
-    socket.on("user-connected", (userId, userName) => {
+    socket.on("user-connected", (userId, userName, namesArr) => {
       //conncet to the new user by passing our own stream to him
       console.log("new user joined: " + userId + " : " + userName);
       setTimeout(() => {
@@ -148,7 +151,7 @@ navigator.mediaDevices
   });
 
 //whichever user either old /new his userId is recieved
-socket.on("user-disconnected", (userId) => {
+socket.on("user-disconnected", (userId, UpdatedNamesArr) => {
   console.log("user disconnected: " + userId);
   //close the call made to the new user
   if (newPeers[userId]) newPeers[userId].close();
@@ -177,7 +180,7 @@ function connectToNewUser(userId, stream, myUserName, userName) {
   //event of getting back the new users stream
   call.on("stream", (newuserVideoStream) => {
     console.log("call answered by newuser i got his video: ");
-    console.log("newuserVideoStream: " + newuserVideoStream);
+    console.log(newuserVideoStream);
     //adding the new users video to our own dom
     addVideoStream(
       video,
@@ -237,22 +240,7 @@ function copyToClipboard(text) {
 
 inviteBtn.addEventListener("click", getUrl);
 
-// let count = 0;
-// call.on("stream", function (remoteStream) {
-//   count = count + 1;
-//   if (count == 2) {
-//     return;
-//   } else {
-//     console.log("Received stream", remoteStream);
-//   }
-// });
-
-// //emit event to server to fetch name of peerWhoCalled
-// socket.emit("findOldUserName", peerWhoCalledId, myId);
-
-// ///server will return the name of old user
-// socket.on("oldUserFound", (oldUserName) => {
-//   //new user will also get the stream of old users once the call is made
-//   console.log("name of old user is " + oldUserName);
-
-// });
+socket.on("updateNames", function (usersArr) {
+  console.log("update list");
+  console.log(usersArr);
+});
