@@ -107,7 +107,6 @@
 }
 
 #chatbtn {
-  margin-left: 1rem;
   background-color: var(--darkblue);
   border: 2px solid var(--darkblue);
 }
@@ -236,7 +235,6 @@ video {
 }
 
 .btn {
-  text-decoration: none;
   border: none;
   padding: 0.5rem 1rem;
   font-size: 2rem;
@@ -245,6 +243,7 @@ video {
   border-radius: 1rem;
   display: flex;
   align-items: center;
+  margin-left: 1rem;
 }
 
 .btn span {
@@ -254,7 +253,19 @@ video {
 #endbtn {
   background: var(--darkred);
   border: 0.15rem solid var(--darkred);
-  margin-right: 1rem;
+}
+
+#filter {
+  background: var(--darkblue);
+  border: 0.15rem solid var(--darkblue);
+}
+
+#filter:hover {
+  cursor: pointer;
+}
+
+#filter:focus {
+  outline: none;
 }
 
 #endbtn:hover {
@@ -285,7 +296,6 @@ video {
 
 /* participants  */
 #participantbtn {
-  margin-left: 1rem;
   background: var(--darkblue);
   border: 0.15rem solid var(--darkblue);
 }
@@ -363,6 +373,7 @@ video {
 
 .list {
   padding-left: 4rem;
+  font-size: 2.5rem;
 }
 
 /* Responsive design */
@@ -423,4 +434,35 @@ video {
   .modal-container {
     width: 90vw;
   }
+}
+
+/* filters in video  */
+.none {
+  -webkit-filter: none;
+  filter: none;
+}
+
+.blur {
+  -webkit-filter: blur(3px);
+  filter: blur(4px);
+}
+
+.grayscale {
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+
+.invert {
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}
+
+.sepia {
+  -webkit-filter: sepia(1);
+  filter: sepia(1);
+}
+
+.saturate {
+  -webkit-filter: saturate(5);
+  filter: saturate(5);
 }

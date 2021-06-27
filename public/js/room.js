@@ -3,13 +3,14 @@ let myUserName = prompt("Please enter your name?");
 if (!myUserName) {
   myUserName = "User";
 }
+// let myUserName = "user default";
 const socket = io("/");
 
 //myPeer created
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3000",
   // proxied: true,
   // secure: true,
 });
@@ -32,6 +33,7 @@ const myNameP = document.createElement("p");
 const mynameTextS = document.createElement("span");
 
 let htmlInserted = `<span class="control-btns-container">
+                      <span id="screenShareBtn" class="control-btn "><span class="fa fa-tv"></span></span>
                       <span id="videoBtn" class="control-btn "><span class="fas fa-video"></span></span>
                       <span id="audioBtn" class="control-btn "><span class="fas fa-microphone"></span></span>
                     </span> `;
@@ -40,6 +42,7 @@ myNameP.innerHTML = htmlInserted;
 
 const videoBtn = myNameP.querySelector("#videoBtn");
 const audioBtn = myNameP.querySelector("#audioBtn");
+const screenShareBtn = myNameP.querySelector("#screenShareBtn");
 let isVidoeOn = true;
 let isAudioOn = true;
 
@@ -53,10 +56,11 @@ navigator.getUserMedia =
 
 navigator.mediaDevices
   .getUserMedia({
-    video: { width: 1280, height: 720 },
+    video: true,
     audio: true,
   })
   .then((stream) => {
+    //changing the stream according the butttons pressed of video or audio
     videoBtn.addEventListener("click", () => {
       const icon = document.querySelector("#videoBtn span");
 
@@ -85,6 +89,21 @@ navigator.mediaDevices
       }
     });
 
+    //function to switch to screen share
+    // screenShareBtn.addEventListener("click", () => {
+    //   navigator.mediaDevices
+    //     .getDisplayMedia({ video: true })
+    //     .then((screenStream) => {
+
+    //       screenStream.getVideoTracks()[0].addEventListener("ended", () => {
+    //         alert("The user has ended sharing the screen");
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       alert(err);
+    //     });
+    // });
+
     //add my own stream in my own dom
     addVideoStream(
       myVideo,
@@ -100,11 +119,20 @@ navigator.mediaDevices
       const peerWhoCalledId = call.peer;
       // const myId = call.provider._id;
       const peerWhoCalledName = call.metadata.name;
+      const peerWhoCalledFilter = call.metadata.filter;
 
       oldPeers[peerWhoCalledId] = call;
       call.answer(stream);
       console.log("my oldpeer called me,i answered and sent stream");
       const video = document.createElement("video");
+      video.className = peerWhoCalledFilter;
+
+      socket.on("filterUpdate", (filter, newUserid) => {
+        if (peerWhoCalledId == newUserid) {
+          video.className = filter;
+        }
+      });
+
       const videoDiv = document.createElement("div");
       videoDiv.classList.add("video-div");
       const nameP = document.createElement("p");
@@ -115,7 +143,8 @@ navigator.mediaDevices
           "my old peer called me,i got his video and displayed it,he/she was: " +
             peerWhoCalledName
         );
-        console.log(oldUservideoStream);
+        console.log("current peer:: ");
+        console.log(call.peerConnection);
         addVideoStream(
           video,
           videoDiv,
@@ -157,21 +186,40 @@ socket.on("user-disconnected", (userId, usersArr) => {
   updateNames(usersArr);
 });
 
+let myFilterVal = "none";
+
 //peerjs sent back the id
 myPeer.on("open", (id) => {
   //sent this id and room number to server.js
   console.log("my id created: " + id);
-  //emit the event to add the new user
+  //emit the event to add the new user,new user sends his name server
   socket.emit("join-room", ROOM_ID, id, myUserName);
+
+  //On filter change event, emit it to server
+  const filterSelect = document.querySelector("select#filter");
+
+  filterSelect.onchange = function () {
+    myFilterVal = filterSelect.value;
+    myVideo.className = myFilterVal;
+
+    socket.emit("filterSent", myFilterVal, id);
+  };
 });
 
 function connectToNewUser(userId, stream, myUserName, userName) {
   console.log("connect to new user function");
   //userid of new user,jiski call kar re hai
   const call = myPeer.call(`${userId}`, stream, {
-    metadata: { name: `${myUserName}` },
-  }); //send the newuser our own stream and our name via metadata
+    metadata: { name: `${myUserName}`, filter: `${myFilterVal}` },
+  }); //send the newuser our own stream and our namevia metadata
   const video = document.createElement("video");
+
+  socket.on("filterUpdate", (filter, newUserid) => {
+    if (userId == newUserid) {
+      video.className = filter;
+    }
+  });
+
   const videoDiv = document.createElement("div");
   videoDiv.classList.add("video-div");
   const nameP = document.createElement("p");
@@ -180,7 +228,6 @@ function connectToNewUser(userId, stream, myUserName, userName) {
   //event of getting back the new users stream
   call.on("stream", (newuserVideoStream) => {
     console.log("call answered by newuser i got his video: ");
-    console.log(newuserVideoStream);
     //adding the new users video to our own dom
     addVideoStream(
       video,
@@ -210,7 +257,6 @@ function addVideoStream(video, videoDiv, nameP, userName, textS, stream) {
   });
 
   //append the video elem in dom
-
   videoDiv.append(video);
   textS.innerText = userName;
   nameP.prepend(textS);
@@ -326,3 +372,7 @@ function displayMessage(msg, position, name) {
   mesgDiv.innerHTML = str;
   chatBoxDiv.append(mesgDiv);
 }
+
+// function startScreenShare(camStream) {
+
+// }

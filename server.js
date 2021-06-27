@@ -95,6 +95,11 @@ io.on("connection", (socket) => {
         .to(roomId)
         .emit("messageRecieved", message, position, myUserName);
     });
+
+    //filter Events
+    socket.on("filterSent", (userFilterVal, userId) => {
+      socket.broadcast.to(roomId).emit("filterUpdate", userFilterVal, userId);
+    });
   });
 });
 
