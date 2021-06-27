@@ -68,6 +68,7 @@ io.on("connection", (socket) => {
 
     //when a socket disconnects
     socket.on("disconnect", () => {
+      console.log("disconected");
       const UpdatedClients = io.sockets.adapter.rooms.get(roomId);
 
       let UpdatedNamesArr = [];

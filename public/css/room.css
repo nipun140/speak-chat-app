@@ -181,7 +181,7 @@ h1 {
   border-radius: 1rem;
   box-shadow: 0rem 0.1rem 1rem 0rem rgba(0, 0, 0, 0.377);
   height: auto;
-  margin: 1rem;
+  margin: 1.5rem;
 }
 
 .video-div p {
@@ -377,14 +377,8 @@ video {
     font-size: 8px;
   }
 
-  .buttons {
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  .btn {
-    margin: 0 !important;
-    margin-bottom: 0.5rem !important;
+  .btn span {
+    margin-left: 1rem;
   }
 
   .chat-window-open {
@@ -398,13 +392,20 @@ video {
   .modal-container {
     width: 80vw;
   }
+
+  .buttons {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    margin: 0 !important;
+    margin-bottom: 0.5rem !important;
+  }
 }
 
 @media (max-width: 400px) {
-  html {
-    font-size: 7px;
-  }
-
   .chat-window-open {
     left: 40%;
   }
@@ -414,7 +415,7 @@ video {
   }
 }
 
-@media (max-width: 300px) {
+@media (max-width: 330px) {
   html {
     font-size: 6px;
   }
