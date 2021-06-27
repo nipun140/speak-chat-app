@@ -296,8 +296,6 @@ const sendBtn = document.getElementById("sendBtn");
 sendBtn.addEventListener("click", () => {
   let message = inputText.value;
   if (message) {
-    var audioObj = new Audio("../sounds/ting.mp3");
-    audioObj.play();
     displayMessage(message, "right", "You");
     socket.emit("messageSent", message, "left", myUserName);
     inputText.value = "";
@@ -313,6 +311,8 @@ socket.on("messageRecieved", (msg, position, name) => {
 const chatBoxDiv = document.querySelector(".chat-box");
 
 function displayMessage(msg, position, name) {
+  var audioObj = new Audio("../sounds/ting.mp3");
+  audioObj.play();
   console.log("display function called");
   const mesgDiv = document.createElement("div");
   mesgDiv.classList.add("msg");
