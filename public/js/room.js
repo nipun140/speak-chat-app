@@ -19,6 +19,9 @@ const myPeer = new Peer(undefined, {
 const newPeers = {};
 const oldPeers = {};
 
+let myStream;
+const currentPeers = [];
+
 //welcome message ,inserted name of user
 document.getElementById("welcomeMsg").innerText = myUserName;
 
@@ -60,6 +63,7 @@ navigator.mediaDevices
     audio: true,
   })
   .then((stream) => {
+    myStream = stream;
     //changing the stream according the butttons pressed of video or audio
     videoBtn.addEventListener("click", () => {
       const icon = document.querySelector("#videoBtn span");
@@ -88,21 +92,6 @@ navigator.mediaDevices
         isAudioOn = true;
       }
     });
-
-    //function to switch to screen share
-    // screenShareBtn.addEventListener("click", () => {
-    //   navigator.mediaDevices
-    //     .getDisplayMedia({ video: true })
-    //     .then((screenStream) => {
-
-    //       screenStream.getVideoTracks()[0].addEventListener("ended", () => {
-    //         alert("The user has ended sharing the screen");
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       alert(err);
-    //     });
-    // });
 
     //add my own stream in my own dom
     addVideoStream(
@@ -143,8 +132,8 @@ navigator.mediaDevices
           "my old peer called me,i got his video and displayed it,he/she was: " +
             peerWhoCalledName
         );
-        console.log("current peer:: ");
-        console.log(call.peerConnection);
+        // currentPeer = call.peerConnection;
+        currentPeers.push(call.peerConnection);
         addVideoStream(
           video,
           videoDiv,
@@ -228,6 +217,9 @@ function connectToNewUser(userId, stream, myUserName, userName) {
   //event of getting back the new users stream
   call.on("stream", (newuserVideoStream) => {
     console.log("call answered by newuser i got his video: ");
+
+    currentPeers.push(call.peerConnection);
+
     //adding the new users video to our own dom
     addVideoStream(
       video,
@@ -376,3 +368,44 @@ function displayMessage(msg, position, name) {
 // function startScreenShare(camStream) {
 
 // }
+
+//function to switch to screen share
+screenShareBtn.addEventListener("click", () => {
+  navigator.mediaDevices
+    .getDisplayMedia({
+      video: {
+        cursor: "always",
+      },
+      audio: {
+        echoCancellation: true,
+        noiseSupprission: true,
+      },
+    })
+    .then((screenStream) => {
+      var videoTrack = myStream.getVideoTracks()[0];
+
+      currentPeers.forEach((currentPeer) => {
+        var videoSender = currentPeer.getSenders().find(function (s) {
+          return s.track.kind == videoTrack.kind;
+        });
+        var screenVideoTrack = screenStream.getVideoTracks()[0];
+        videoSender.replaceTrack(screenVideoTrack);
+      });
+
+      screenStream.getVideoTracks()[0].addEventListener("ended", () => {
+        // stopScreenShare
+        currentPeers.forEach((currentPeer) => {
+          var videoSender = currentPeer.getSenders().find(function (s) {
+            return s.track.kind == videoTrack.kind;
+          });
+
+          videoSender.replaceTrack(myStream.getVideoTracks()[0]);
+        });
+
+        alert("You have ended sharing the screen");
+      });
+    })
+    .catch((err) => {
+      alert(err);
+    });
+});
