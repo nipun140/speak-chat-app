@@ -240,7 +240,10 @@ function showLater() {
       });
     })
     .catch((err) => {
-      showAlertBox(`failed to get media:: ${err}`, "false");
+      showAlertBox(
+        `failed to get your media: ${err} <br> try using chrome browser and allow permission to access audio & video`,
+        "false"
+      );
     });
 
   //whichever user either old /new his userId is recieved
@@ -452,10 +455,6 @@ function showLater() {
     mesgDiv.innerHTML = str;
     chatBoxDiv.append(mesgDiv);
   }
-
-  // function startScreenShare(camStream) {
-
-  // }
 
   //function to switch to screen share
   screenShareBtn.addEventListener("click", () => {
