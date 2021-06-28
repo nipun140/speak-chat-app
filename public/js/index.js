@@ -14,8 +14,8 @@ function copyToClipboard(text) {
   dummy.select();
   document.execCommand("copy");
   dummy.remove();
-  window.alert(
-    `URL coppied to clipboard,\r\nShare with your friends,\r\nURL :${text}`
+  showAlertBox(
+    `URL coppied to clipboard, <br> Share the room link with your friends, <br> URL :${text}`
   );
 }
 
@@ -27,9 +27,28 @@ function redirectUser() {
 shareBtn.addEventListener("click", getUrl);
 joinBtn.addEventListener("click", redirectUser);
 
-// browser.runtime.onMessage.addListener((message) => {
-//   console.log("background: onMessage", message);
+//alert box
+const alertMessageContainer = document.querySelector(
+  "#alert-message-container"
+);
+const alertDiv = document.querySelector("#alert-div");
+const alertText = document.querySelector("#alert-div p");
+const okBtn = document.querySelector("#alert-div .okBtn");
 
-//   // Add this line:
-//   return Promise.resolve("Dummy response to keep the console quiet");
-// });
+function showAlertBox(alertMsg) {
+  alertMessageContainer.style.display = "flex";
+  alertText.innerHTML = alertMsg;
+  alertDiv.classList.replace("zoom-out", "zoom-in");
+}
+
+okBtn.addEventListener("click", () => {
+  closeAlertMessageBox();
+});
+
+function closeAlertMessageBox() {
+  alertDiv.classList.replace("zoom-in", "zoom-out");
+
+  setTimeout(() => {
+    alertMessageContainer.style.display = "none";
+  }, 400);
+}
